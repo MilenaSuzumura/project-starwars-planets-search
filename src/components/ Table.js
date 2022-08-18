@@ -4,7 +4,6 @@ import PlanetsContext from '../context/PlanetsContext';
 
 function Table({ filterByName, filterByNumericValues }) {
   const planets = useContext(PlanetsContext);
-  console.log(filterByNumericValues);
   return (
     <table>
       <tr>

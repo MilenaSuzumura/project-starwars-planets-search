@@ -7,9 +7,12 @@ function FormFiltro({ filterByNumericValues, setfilterByNumericValues }) {
     comparison: 'maior que',
     value: 0,
   });
+  const [noRepeat, setnoRepeat] = useState([]);
 
   function handleClick() {
+    const { column } = filterValues;
     setfilterByNumericValues([...filterByNumericValues, { ...filterValues }]);
+    setnoRepeat([...noRepeat, column]);
   }
 
   function handleChange({ target }) {
@@ -18,6 +21,7 @@ function FormFiltro({ filterByNumericValues, setfilterByNumericValues }) {
   }
 
   const { column, comparison, value } = filterValues;
+  console.log(noRepeat);
   return (
     <form>
       <select
@@ -27,11 +31,26 @@ function FormFiltro({ filterByNumericValues, setfilterByNumericValues }) {
         onChange={ handleChange }
       >
         column
-        <option value="population">population</option>
-        <option value="orbital_period" selected>orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {
+          !noRepeat.includes('population')
+          && <option value="population">population</option>
+        }
+        {
+          !noRepeat.includes('orbital_period')
+          && <option value="orbital_period">orbital_period</option>
+        }
+        {
+          !noRepeat.includes('diameter')
+          && <option value="diameter">diameter</option>
+        }
+        {
+          !noRepeat.includes('rotation_period')
+          && <option value="rotation_period">rotation_period</option>
+        }
+        {
+          !noRepeat.includes('surface_water')
+          && <option value="surface_water">surface_water</option>
+        }
       </select>
       <select
         name="comparison"
