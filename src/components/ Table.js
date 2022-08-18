@@ -8,10 +8,14 @@ function Table() {
   return (
     <table>
       <tr>
-        { Object.keys(planets[0]).map((key) => <td key={ key }>{key}</td>) }
+        {
+          planets.length !== 0
+          && Object.keys(planets[0]).map((key) => <th key={ key }>{key}</th>)
+        }
       </tr>
       {
-        planets.map((planet) => (
+        planets.length !== 0
+        && planets.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.climate}</td>
