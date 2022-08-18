@@ -7,13 +7,14 @@ import PlanetsProvider from './context/PlanetsProvider';
 
 function App() {
   const [filterByName, setfilterByName] = useState({ name: '' });
-  const { name } = filterByName;
+  const [filterByNumericValues, setfilterByNumericValues] = useState([]);
 
   function handleChange({ target }) {
     const { value } = target;
     setfilterByName({ name: value });
   }
 
+  const { name } = filterByName;
   return (
     <PlanetsProvider>
       <h1>Starwars Planets Search</h1>
@@ -24,9 +25,15 @@ function App() {
         value={ name }
         onChange={ handleChange }
       />
-      <FormFiltro />
+      <FormFiltro
+        filterByNumericValues={ filterByNumericValues }
+        setfilterByNumericValues={ setfilterByNumericValues }
+      />
       <FormOrdenar />
-      <Table filterByName={ filterByName } />
+      <Table
+        filterByName={ filterByName }
+        filterByNumericValues={ filterByNumericValues }
+      />
     </PlanetsProvider>
   );
 }

@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from '../context/PlanetsContext';
 
-function Table({ filterByName }) {
+function Table({ filterByName, filterByNumericValues }) {
   const planets = useContext(PlanetsContext);
+  console.log(filterByNumericValues);
   return (
     <table>
       <tr>
@@ -17,7 +18,21 @@ function Table({ filterByName }) {
         && planets.filter(
           (planet) => planet.name.toLowerCase()
             .includes(filterByName.name.toLowerCase()),
-        )
+        ).filter((planet) => {
+          if (filterByNumericValues.length !== 0) {
+            for (let i = 0; i < filterByNumericValues.length; i += 1) {
+              const { comparison, column, value } = filterByNumericValues[i];
+              if (comparison === 'menor que') {
+                return planet[column] < parseFloat(value);
+              } if (comparison === 'maior que') {
+                return planet[column] > parseFloat(value);
+              } if (comparison === 'igual a') {
+                return planet[column] === value;
+              }
+            }
+          }
+          return planet;
+        })
           .map((planet) => (
             <tr key={ planet.name }>
               <td>{planet.name}</td>
@@ -41,7 +56,8 @@ function Table({ filterByName }) {
 }
 
 Table.propTypes = {
-  filterByName: PropTypes.func.isRequired,
+  filterByName: PropTypes.objectOf.isRequired,
+  filterByNumericValues: PropTypes.objectOf.isRequired,
 };
 
 export default Table;
