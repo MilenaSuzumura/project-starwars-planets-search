@@ -55,11 +55,10 @@ function App() {
       {
         filterByNumericValues.length !== 0
         && filterByNumericValues.map((filtro, index) => (
-          <div key={ index }>
+          <div key={ index } data-testid="filter">
             <p>{`${filtro.column} ${filtro.comparison} ${filtro.value}`}</p>
             <button
               type="button"
-              data-testid="filter"
               onClick={ () => {
                 removeUmaFiltragem(filtro.column);
               } }
