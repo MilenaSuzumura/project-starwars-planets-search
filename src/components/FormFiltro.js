@@ -1,19 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 function FormFiltro({ filterByNumericValues, setfilterByNumericValues }) {
   const [filterValues, setfilterValues] = useState({
-    column: 'population',
+    column: '',
     comparison: 'maior que',
     value: 0,
   });
-  const [noRepeat, setnoRepeat] = useState([]);
+  const columns = ['population', 'orbital_period', 'diameter',
+    'rotation_period', 'surface_water'];
+  const columsResult = columns.map((columnValue) => {
+    const columnExist = filterByNumericValues.filter((values) => values.column
+        === columnValue);
+    if (columnExist.length === 0) {
+      return (
+        <option key={ columnValue } value={ columnValue }>
+          {columnValue}
+        </option>
+      );
+    }
+    return '';
+  });
+
+  function validaValue() {
+    setfilterValues({ ...filterValues, column: columsResult[1].props.value });
+  }
 
   function handleClick() {
-    const { column } = filterValues;
     setfilterByNumericValues([...filterByNumericValues, { ...filterValues }]);
-    setnoRepeat([...noRepeat, column]);
+    validaValue();
   }
+
+  useEffect(() => {
+    setfilterValues({ ...filterValues, column: columsResult[0].props.value });
+  }, []);
 
   function handleChange({ target }) {
     const { name, value } = target;
@@ -21,7 +41,6 @@ function FormFiltro({ filterByNumericValues, setfilterByNumericValues }) {
   }
 
   const { column, comparison, value } = filterValues;
-  console.log(noRepeat);
   return (
     <form>
       <select
@@ -32,24 +51,9 @@ function FormFiltro({ filterByNumericValues, setfilterByNumericValues }) {
       >
         column
         {
-          !noRepeat.includes('population')
-          && <option value="population">population</option>
-        }
-        {
-          !noRepeat.includes('orbital_period')
-          && <option value="orbital_period">orbital_period</option>
-        }
-        {
-          !noRepeat.includes('diameter')
-          && <option value="diameter">diameter</option>
-        }
-        {
-          !noRepeat.includes('rotation_period')
-          && <option value="rotation_period">rotation_period</option>
-        }
-        {
-          !noRepeat.includes('surface_water')
-          && <option value="surface_water">surface_water</option>
+          columsResult.length === 0
+            ? <option value=""> </option>
+            : columsResult
         }
       </select>
       <select

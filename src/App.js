@@ -9,6 +9,21 @@ function App() {
   const [filterByName, setfilterByName] = useState({ name: '' });
   const [filterByNumericValues, setfilterByNumericValues] = useState([]);
 
+  function removeUmaFiltragem(column) {
+    const filtroNovo = filterByNumericValues.reduce((acc, filtro) => {
+      if (filtro.column === column) {
+        return acc;
+      }
+      acc.push(filtro);
+      return acc;
+    }, []);
+    setfilterByNumericValues(filtroNovo);
+  }
+
+  function removeTodasFiltragens() {
+    setfilterByNumericValues([]);
+  }
+
   function handleChange({ target }) {
     const { value } = target;
     setfilterByName({ name: value });
@@ -30,6 +45,30 @@ function App() {
         setfilterByNumericValues={ setfilterByNumericValues }
       />
       <FormOrdenar />
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ removeTodasFiltragens }
+      >
+        Remover todas filtragens
+      </button>
+      {
+        filterByNumericValues.length !== 0
+        && filterByNumericValues.map((filtro, index) => (
+          <div key={ index }>
+            <p>{`${filtro.column} ${filtro.comparison} ${filtro.value}`}</p>
+            <button
+              type="button"
+              data-testid="filter"
+              onClick={ () => {
+                removeUmaFiltragem(filtro.column);
+              } }
+            >
+              X
+            </button>
+          </div>
+        ))
+      }
       <Table
         filterByName={ filterByName }
         filterByNumericValues={ filterByNumericValues }
