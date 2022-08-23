@@ -42,7 +42,7 @@ function Table({ filterByName, filterByNumericValues, filterOrdem }) {
         }
       </tr>
       {
-        planets.length !== 0
+        planets.length !== undefined
         && planets.filter(
           (planet) => planet.name.toLowerCase()
             .includes(filterByName.name.toLowerCase()),
