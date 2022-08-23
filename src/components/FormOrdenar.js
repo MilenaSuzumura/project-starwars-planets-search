@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-function FormOrdenar(filterOrdem, setfilterOrdem) {
+function FormOrdenar({ filterOrdem, setfilterOrdem }) {
   const [order, setOrder] = useState({
-    column: '', sort: '' });
+    column: 'population', sort: '' });
 
   const columns = ['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];

@@ -1,10 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import App from '../App';
 import userEvent from '@testing-library/user-event';
+import Table from '../components/ Table';
 
-describe('Testa o App', () => {
-  test('Testa se o título e o input de pesquisa aparecem na tela', () => {
-    render(<App />);
-  })
+describe('Testa o Table', () => {
+  test('Testa se dá para apagar um filtro', () => {
+    render(<Table />);
+    expect(removeFiltro).not.toBeInTheDocument();
+  });
 })

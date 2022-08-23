@@ -56,11 +56,20 @@ function Table({ filterByName, filterByNumericValues, filterOrdem }) {
             if (result.length === filterByNumericValues.length) {
               return planet;
             }
-            console.log(filterOrdem);
             return '';
           }
           return planet;
-        })
+        }).reduce((acc, planet) => {
+          acc.push(planet);
+          if (Object.values(filterOrdem).length !== 0) {
+            const { sort, column } = filterOrdem.order;
+            if (sort === 'ASC') {
+              acc.sort((a, b) => a[column] - b[column]);
+            }
+            acc.sort((a, b) => b[column] - a[column]);
+          }
+          return acc;
+        }, [])
           .map((planet) => (
             <tr key={ planet.name }>
               <td>{planet.name}</td>

@@ -15,31 +15,15 @@ describe('Testa o App', () => {
   test('Testa se dá para digitar no input de pesquisa', () => {
     render(<App />);
     const filter = screen.getByTestId('name-filter');
+    expect(filter).toHaveValue('');
     userEvent.type(filter, 'Tatooine');
-    const row = screen.getByRole('row', { name: '' });
-    expect(row).toBeInTheDocument();
+    expect(filter).toHaveValue('Tatooine');
   });
   
   test('Testa se o botão de remover filtros está na tela', () => {
     render(<App />);
     const buttonRemove = screen.getByTestId('button-remove-filters');
     expect(buttonRemove).toBeInTheDocument();
-  });
-
-  test('Testa se dá para selecionar os filtros', () => {
-    render(<App />);
-    const optionPopulation = screen.getAllByRole('option', { value: /population/i });
-    const optionOrbital = screen.getAllByRole('option', { value: /orbital_period/i });
-    const optionMaiorQue = screen.getByRole('option', { name: /maior que/i });
-    const optionValue = screen.getByRole('spinbutton', { name: "" });
-    userEvent.click(optionPopulation[0]);
-    userEvent.click(optionOrbital[0]);
-    userEvent.click(optionMaiorQue);
-    userEvent.type(optionValue, 2000);
-    const buttonFiltro = screen.getByTestId('button-filter');
-    userEvent.click(buttonFiltro);
-    const row = screen.getByRole('row', { name: '' });
-    expect(row).toBeInTheDocument();
   });
 
   test('Testa se dá para apagar um filtro', () => {
@@ -77,26 +61,24 @@ describe('Testa o App', () => {
     userEvent.click(removeFiltroTudo);
     expect(removeFiltro[0]).not.toBeInTheDocument();
   });
+
+  test('Testa um filtro especifico', () => {
+    render(<App />);
+    const optionPopulation = screen.getAllByRole('option', { value: /population/i });
+    const optionMaiorQue = screen.getByRole('option', { name: /maior que/i });
+    const optionValue = screen.getByRole('spinbutton', { name: "" });
+    userEvent.click(optionPopulation[0]);
+    userEvent.click(optionMaiorQue);
+    userEvent.type(optionValue, 2000);
+    const buttonFiltro = screen.getByTestId('button-filter');
+    userEvent.click(buttonFiltro);
+    const optionOrbital = screen.getAllByRole('option', { value: /orbital_period/i });
+    userEvent.click(optionOrbital[0]);
+    userEvent.click(optionMaiorQue);
+    userEvent.type(optionValue, 5000);
+    userEvent.click(buttonFiltro);
+    const removeFiltro = screen.getAllByRole('button', { name: /x/i });
+    userEvent.click(removeFiltro[0]);
+    expect(removeFiltro.length).toBe(2);
+  });
 })
-
-/* 
-
-test('I am your test', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Hello, App!/i);
-  expect(linkElement).toBeInTheDocument();
-});
-
-test('I am your test', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Hello, App!/i);
-  expect(linkElement).toBeInTheDocument();
-});
-
-test('I am your test', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Hello, App!/i);
-  expect(linkElement).toBeInTheDocument();
-});
-
- */
