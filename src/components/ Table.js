@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from '../context/PlanetsContext';
 
-function Table({ filterByName, filterByNumericValues }) {
+function Table({ filterByName, filterByNumericValues, filterOrdem }) {
   const planets = useContext(PlanetsContext);
 
   function filtroUnico(planet, comparison, column, value) {
@@ -56,6 +56,7 @@ function Table({ filterByName, filterByNumericValues }) {
             if (result.length === filterByNumericValues.length) {
               return planet;
             }
+            console.log(filterOrdem);
             return '';
           }
           return planet;
@@ -85,6 +86,7 @@ function Table({ filterByName, filterByNumericValues }) {
 Table.propTypes = {
   filterByName: PropTypes.objectOf.isRequired,
   filterByNumericValues: PropTypes.objectOf.isRequired,
+  filterOrdem: PropTypes.objectOf.isRequired,
 };
 
 export default Table;

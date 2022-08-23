@@ -7,6 +7,7 @@ import PlanetsProvider from './context/PlanetsProvider';
 
 function App() {
   const [filterByName, setfilterByName] = useState({ name: '' });
+  const [filterOrdem, setfilterOrdem] = useState({});
   const [filterByNumericValues, setfilterByNumericValues] = useState([]);
 
   function removeUmaFiltragem(column) {
@@ -44,7 +45,10 @@ function App() {
         filterByNumericValues={ filterByNumericValues }
         setfilterByNumericValues={ setfilterByNumericValues }
       />
-      <FormOrdenar />
+      <FormOrdenar
+        filterOrdem={ filterOrdem }
+        setfilterOrdem={ setfilterOrdem }
+      />
       <button
         type="button"
         data-testid="button-remove-filters"
@@ -71,6 +75,7 @@ function App() {
       <Table
         filterByName={ filterByName }
         filterByNumericValues={ filterByNumericValues }
+        filterOrdem={ filterOrdem }
       />
     </PlanetsProvider>
   );
